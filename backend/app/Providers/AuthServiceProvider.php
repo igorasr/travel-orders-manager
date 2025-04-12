@@ -3,13 +3,18 @@
 namespace App\Providers;
 
 use App\Models\TravelOrder;
-use App\Observers\TravelOrderObserver;
+use App\Policies\TravelOrderPolicy;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
+
+    protected $policies = [
+        TravelOrder::class => TravelOrderPolicy::class,
+    ];
+
     /**
-     * Register any application services.
+     * Register services.
      */
     public function register(): void
     {
@@ -17,10 +22,10 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      */
     public function boot(): void
     {
-        TravelOrder::observe(TravelOrderObserver::class);
+        //
     }
 }
