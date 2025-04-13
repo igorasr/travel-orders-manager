@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TravelOrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resources([
         'travel-orders' => TravelOrderController::class
     ]);
+    Route::get('/users', [UserController::class, 'index']);
 
     Route::patch('/travel-orders/{TravelOrder}/status', [TravelOrderController::class, 'updateStatus']);
     Route::patch('/travel-orders/{TravelOrder}/cancel', [TravelOrderController::class, 'cancelTravelOrder']);
