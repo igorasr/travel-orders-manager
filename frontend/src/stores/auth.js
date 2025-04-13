@@ -6,7 +6,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Estado
   const token = ref(null)
   const user = ref(null)
-
+  
   // Computado opcional
 
   // Ações
@@ -17,7 +17,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   function setUser(data) {
     user.value = data.user
-    localStorage.setItem('user', data.user)
+    localStorage.setItem('user', JSON.stringify(data.user))
+  }
+
+  function getUser()
+  {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      user.value = JSON.parse(userData);
+    }
+    return user.value;
   }
 
   async function isAuthenticated() {
@@ -32,7 +41,10 @@ export const useAuthStore = defineStore('auth', () => {
 
   }
 
-  function logout() {
+  async function logout() {
+    await HttpClient.get('/auth/logout');
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     user.value = null
     token.value = null
   }
@@ -43,6 +55,8 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     setToken,
     setUser,
-    logout
+    logout,
+    getUser
   }
-})
+}
+)

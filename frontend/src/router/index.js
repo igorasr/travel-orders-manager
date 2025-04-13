@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import { useAuthStore } from '@/stores/auth'
+import RegisterUserView from '@/views/RegisterUserView.vue'
 
 
 const router = createRouter({
@@ -10,6 +11,11 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: RegisterUserView,
     },
     {
       path: '/dashboard',
@@ -33,7 +39,7 @@ router.beforeEach(async (to, from, next) => {
 
   // Se já está logado e tenta acessar /login, redireciona pra /dashboard
   if (to.name === 'login' && await isAuthenticated) {
-    return next({ name: 'about' })
+    return next({ name: 'dashboard' })
   }
 
   next()

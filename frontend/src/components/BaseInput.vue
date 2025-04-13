@@ -1,7 +1,7 @@
 <template>
   <div class="w-full m-1">
     <label v-if="label" :for="id" class="block text-sm text-gray-700 mb-1">
-      {{ label }}
+      {{ label + (required ? ' *' : '') }} 
     </label>
 
     <input
@@ -9,6 +9,7 @@
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
+      :required="required"
       @input="$emit('update:modelValue', $event.target.value)"
       :class="[
         'w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none transition text-gray-800',
@@ -35,7 +36,11 @@ const props = defineProps({
     default: () => `input-${Math.random().toString(36).substr(2, 9)}`
   },
   placeholder: String,
-  error: String
+  error: String,
+  required: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])

@@ -1,5 +1,10 @@
 <template>
   <div class="p-6 max-w-7xl mx-auto">
+    <AppHeader />
+    <CreateTravelOrderModal
+      v-model="showModal"
+      @saved="buscarPedidos"
+    />
     <!-- Filtros -->
     <FormCard
       title="Filtros"
@@ -7,7 +12,17 @@
       class="mb-8"
     >
       <form @submit.prevent="buscarPedidos" class="grid gap-4 md:grid-cols-3">
-      <BaseInput v-model="filtros.status" label="Status" placeholder="Ex: solicitado" />
+      <BaseSelect
+        label="Status"
+        v-model="filtros.status"
+        placeholder="Selecione o status"
+        :options="[
+          { value: '', label: 'Todos', default: true },
+          { value: 'solicitado', label: 'Solicitado' },
+          { value: 'aprovado', label: 'Aprovado' },
+          { value: 'cancelado', label: 'Cancelado' }
+        ]"
+      />
       <BaseInput v-model="filtros.cidade" label="Cidade" placeholder="Ex: Belo Horizonte" />
       <BaseInput v-model="filtros.estado" label="Estado" placeholder="Ex: BH" />
       <BaseInput v-model="filtros.pais" label="País" placeholder="Ex: Brasil" />
@@ -15,10 +30,20 @@
       <BaseInput v-model="filtros.data_volta" label="Data de volta" type="date" />
 
       <div class="md:col-span-3">
-        <BaseButton class="w-full md:w-auto" type="submit">Filtrar</BaseButton>
+        <BaseButton class="w-full md:w-auto" type="submit">
+           Filtrar
+        </BaseButton>
       </div>
     </form>
     </FormCard>
+    
+    <div class="flex justify-end mb-4">
+      <BaseButton @click="openModal" class="flex items-center gap-2">
+        <SquarePlus class="text-white"/>
+        Novo Pedido
+      </BaseButton>
+    </div>
+
 
     <!-- Lista de pedidos -->
     <div class="mt-8 grid gap-4">
@@ -67,18 +92,22 @@
           </div>
       </div>
     </div>
+
+    
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import HttpClient from '@/services/HttpClient'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import FormCard from '@/components/FormCard.vue'
-import { CheckCircle, XCircle } from 'lucide-vue-next'
+import BaseSelect from '@/components/BaseSelect.vue'
+import { CheckCircle, XCircle, SquarePlus } from 'lucide-vue-next'
 import { useTravelOrdersStore } from '@/stores/TravelOrderStore'
 import { storeToRefs } from 'pinia'
+import AppHeader from '@/components/AppHeader.vue'
+import CreateTravelOrderModal from '@/components/CreateTravelOrderModal.vue'
 
 const store = useTravelOrdersStore()
 const { travelOrders, loading } = storeToRefs(store)
@@ -93,9 +122,16 @@ const filtros = ref({
   data_volta: ''
 })
 
+const showModal = ref(false)
+
 store.loadTravelOrders()
 
-
+function openModal(){
+  showModal.value = !showModal.value
+}
+function buscarPedidos(){
+  store.loadTravelOrders(filtros.value)
+}
 // Formatar datas
 function formatarData(data) {
   return new Date(data).toLocaleDateString('pt-BR')
