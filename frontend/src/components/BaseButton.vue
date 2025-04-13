@@ -45,9 +45,11 @@ const variantClasses = computed(() => {
     case 'secondary':
       return 'bg-gray-200 text-gray-800 hover:bg-gray-300'
     case 'danger':
-      return 'bg-red-600 text-white hover:bg-red-700'
+      return 'bg-orange-600 text-white hover:bg-orange-700'
+    case 'transparent':
+      return 'bg-transparent'
     default:
-      return 'bg-blue-600 text-white hover:bg-blue-700'
+      return 'bg-blue-700 text-white hover:bg-blue-800'
   }
 })
 

@@ -46,7 +46,11 @@ import BaseButton from '@/components/BaseButton.vue';
 import HttpClient from '@/services/HttpClient';
 import {reactive} from 'vue';
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { useToast } from "vue-toastification";
 
+const router = useRouter()
+const toast = useToast();
 
 const loading = reactive({
   loading: false
@@ -67,8 +71,14 @@ async function login(){
   };
 
   try {
-    let {data} = await HttpClient.post('/auth/login', payload);
-    const token = data.token;
+    let response = await HttpClient.post('/auth/login', payload);
+
+    if(!response.success){
+      toast.error(response.error.message);
+      return;
+    }
+
+    const token = response.data.token;
 
     authStore.setToken({
       token
@@ -81,9 +91,11 @@ async function login(){
       authStore.setUser({
         user
       });
+
+      router.replace('/dashboard');
     }
   } catch (error) {
-    alert(error.message);
+    toast.error(error.message);
   }
   finally {
     loading.loading = false;
