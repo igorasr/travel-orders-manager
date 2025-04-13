@@ -1,3 +1,93 @@
+# 📦 Projeto Fullstack - Laravel + Vue.js
+
+Este é um projeto fullstack desenvolvido como parte do teste técnico. Ele combina **Laravel** no backend com **Vue.js** no frontend, ambos hospedados no mesmo diretório.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Laravel** (Backend - PHP)
+- **Laravel Sail** (Ambiente de desenvolvimento com Docker)
+- **MySQL** (Banco de dados)
+- **Vue.js** (Frontend - JavaScript)
+- **Docker & Docker Compose**
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### ✅ Pré-requisitos
+
+Antes de começar, você precisará ter os seguintes itens instalados na sua máquina:
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Git](https://git-scm.com/)
+
+---
+
+### 📥 Clonando o Repositório
+
+```bash
+git clone https://github.com/igorasr/travel-orders-manager.git
+cd travel-orders-manager
+```
+
+### ⚙️ Rodando Backend
+
+Acesse o diretorio
+```bash
+cd backend
+```
+
+1. Copie o arquivo .env.example e crie seu .env:
+```bash
+cp .env.example .env
+```
+
+2. Instale as dependências PHP com o Composer:
+```bash
+composer install
+```
+
+3. Inicie os containers com o Laravel Sail:
+```bash
+./vendor/bin/sail up -d
+```
+4. Gere a chave da aplicação:
+```bash
+./vendor/bin/sail artisan key:generate
+```
+5. Rode as migrations e (se necessário) os seeders:
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+### 🖥️ Rodando o Frontend (Vue.js)
+> O frontend está integrado ao Laravel e localizado em resources/js (estrutura padrão com Vite).
+
+Acesse o diretorio do frontend
+```bash
+cd frontend
+```
+
+1. Instale as dependências com o npm:
+
+```bash
+npm install
+```
+2. Inicie o servidor Vite para desenvolvimento:
+```bash
+npm run dev
+```
+
+### 🌐 Acessando a Aplicação
+Após iniciar os containers e servidores, acesse:
+
+Frontend: http://localhost
+
+Backend (API): http://localhost/api
+
+MySQL: Acessível pela porta 3306 (confira o docker-compose.yml)
+
 ## 🔐 Endpoints - Autenticação (JWT)
 
 
@@ -20,3 +110,5 @@
 | PATCH   | /api/travel-orders/{id}/status           | Atualiza o status do pedido para "aprovado" ou "cancelado". |
 | PATCH   | /api/travel-orders/{id}/cancel           | Cancela um pedido aprovado .         |
 | GET     | /api/travel-orders?status=...&cidade=...&estado=...&pais=...&data_ida_inicio=...&data_ida_fim=... | Lista pedidos filtrando por status, destino ou período. (mesmo endpoint do GET geral) |
+
+[Collection para testes da API]('./TravelOrderManager.postman_collection.json')
