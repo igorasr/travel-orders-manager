@@ -42,6 +42,8 @@ async function request(method, url, data = null, config = {}) {
     let message = 'Erro inesperado.'
     if (err.response?.data?.message) {
       message = err.response.data.message
+    } else if (err.response?.data?.error) {
+      message = err.response?.data?.error
     } else if (err.message) {
       message = err.message
     }

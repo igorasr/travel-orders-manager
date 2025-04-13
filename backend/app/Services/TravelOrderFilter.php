@@ -9,7 +9,6 @@ class TravelOrderFilter
     public static function apply($query, FilterTravelOrderDTO $filters)
     {
         return $query
-            ->where('user_id', auth()->user()->id)
             ->when($filters->status, fn($q, $v) => $q->where('status', $v))
             ->when($filters->destino, fn($q, $v) => $q->where('destino', json_encode($v)))
             ->when($filters->cidade, fn($q, $v) => $q->where('destino->city', $v))

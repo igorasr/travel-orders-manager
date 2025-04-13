@@ -50,7 +50,7 @@ import { useRouter } from 'vue-router'
 import { useToast } from "vue-toastification";
 
 const router = useRouter()
-const toast = useToast();
+const toast = useToast()
 
 const loading = reactive({
   loading: false
@@ -74,7 +74,7 @@ async function login(){
     let response = await HttpClient.post('/auth/login', payload);
 
     if(!response.success){
-      toast.error(response.error.message);
+      toast.error('Credenciais inválidas, tente novamente ou cadastre-se');
       return;
     }
 

@@ -1,6 +1,9 @@
 // stores/travelOrders.js
 import { defineStore } from 'pinia'
 import HttpClient from '@/services/HttpClient'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 export const useTravelOrdersStore = defineStore('travelOrders', {
   state: () => ({
@@ -23,13 +26,21 @@ export const useTravelOrdersStore = defineStore('travelOrders', {
 
     async aprovarPedido(id) {
       const payload = { status: 'aprovado' }
-      const { success, data } = await HttpClient.patch(`/travel-orders/${id}`, payload)
-      if (success) this.atualizarPedido(data)
+      const response= await HttpClient.patch(`/travel-orders/${id}/status`, payload)
+      if(!response.success) {
+        toast.error(response.error.message || 'Erro ao aprovar o pedido')
+        return
+      }
+      this.atualizarPedido(response.data)
     },
 
     async cancelarPedido(id) {
-      const { success, data } = await HttpClient.patch(`/travel-orders/${id}/cancel`)
-      if (success) this.atualizarPedido(data)
+      const response = await HttpClient.patch(`/travel-orders/${id}/cancel`)
+      if(!response.success) {
+        toast.error(response.error.message || 'Erro ao cancelar o pedido')
+        return
+      }
+      this.atualizarPedido(response.data)
     }
   }
 })

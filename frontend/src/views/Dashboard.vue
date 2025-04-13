@@ -52,12 +52,15 @@
         :key="travelOrder.id"
         class="p-4 rounded-xl shadow bg-white border border-gray-100 flex flex-col md:flex-row justify-between gap-4 transform transition hover:-translate-y-1 hover:shadow-md items-center"
       >
-        <div >
+        <div class="flex flex-col gap-2">
           <h3 class="text-lg font-semibold text-gray-800">
             {{ travelOrder.destino.city }}, {{ travelOrder.destino.state }} - {{ travelOrder.destino.country }}
           </h3>
+          <p class="text-gray-500">
+            <strong>Solicitante:</strong> {{ travelOrder.user.name }}
+          </p>
           <span
-            class="inline-block text-sm font-medium px-2 py-1 rounded mt-1"
+            class="inline-block text-sm font-medium px-2 py-1 rounded mt-1 max-w-fit"
             :class="statusClass(travelOrder.status) + ' text-white'"
           >
           {{ travelOrder.status }}
@@ -71,7 +74,7 @@
         <!-- Ações -->
         <div class="flex flex-col gap-1 mt-3">
             <BaseButton
-              :disabled="canApprove(travelOrder)"
+              :disabled="!canApprove(travelOrder)"
               @click="store.aprovarPedido(travelOrder.id)"
               class="text-green-600 hover:text-green-800 transition"
               title="Aprovar"
@@ -81,7 +84,7 @@
             </BaseButton>
     
             <BaseButton
-              :disabled="canCancel(travelOrder)"
+              :disabled="!canCancel(travelOrder)"
               @click="store.cancelarPedido(travelOrder.id)"
               class="text-red-500 hover:text-red-700 transition"
               title="Cancelar"

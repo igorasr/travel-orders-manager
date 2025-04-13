@@ -17,7 +17,7 @@ class TravelOrderService
 
     public function getAllOrders(FilterTravelOrderDTO $filters)
     {
-        return TravelOrderFilter::apply(TravelOrder::query(), $filters)->get();
+        return TravelOrderFilter::apply(TravelOrder::query(), $filters)->with(['user'])->get();
     }
 
     public function createTravelOrder(TravelOrderDTO $data)
