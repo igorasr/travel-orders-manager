@@ -15,14 +15,7 @@ class UpdateStatusTravelOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $travelOrder = TravelOrder::find($this->route('TravelOrder'));
-
-        return $travelOrder->user_id !== $this->user()->id;
-    }
-
-    public function failedAuthorization()
-    {
-        throw new AuthorizationException('Você não pode definir o status ao criar um pedido como solicitante.');
+        return true;
     }
 
     /**

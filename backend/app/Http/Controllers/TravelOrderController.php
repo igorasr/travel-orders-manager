@@ -7,6 +7,7 @@ use App\DTOs\TravelOrderDTO;
 use App\Enums\TravelOrderStatus;
 use App\Http\Requests\StoreTravelOrderRequest;
 use App\Http\Requests\UpdateStatusTravelOrderRequest;
+use App\Models\TravelOrder;
 use App\Services\TravelOrderService;
 use Illuminate\Http\Request;
 
@@ -39,27 +40,27 @@ class TravelOrderController extends Controller
     /**
      * Update the status of the specified resource.
      */
-    public function updateStatus(UpdateStatusTravelOrderRequest $request, string $id)
+    public function updateStatus(UpdateStatusTravelOrderRequest $request, TravelOrder $travelOrder)
     {
-        $travelOrder = $this->travelOrderService->updateTravelOrderStatus($id, $request->input('status'));
+        $travelOrder = $this->travelOrderService->updateTravelOrderStatus($travelOrder->id, $request->input('status'));
         return response()->json($travelOrder, 200);
     }
 
     /**
      * Cancel the specified resource.
      */
-    public function cancelTravelOrder(string $id)
+    public function cancelTravelOrder(TravelOrder $travelOrder)
     {
-        $travelOrder = $this->travelOrderService->updateTravelOrderStatus($id, TravelOrderStatus::CANCELADO->value);
+        $travelOrder = $this->travelOrderService->updateTravelOrderStatus($travelOrder->id, TravelOrderStatus::CANCELADO->value);
         return response()->json($travelOrder, 200);
     }
     
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(TravelOrder $travelOrder)
     {
-        $travelOrder = $this->travelOrderService->getTravelOrderById($id);
+        $travelOrder = $this->travelOrderService->getTravelOrderById($travelOrder->id);
         return $travelOrder;
     }
 

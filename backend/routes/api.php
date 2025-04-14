@@ -31,6 +31,6 @@ Route::middleware('auth:api')->group(function () {
     ]);
     Route::get('/users', [UserController::class, 'index']);
 
-    Route::patch('/travel-orders/{TravelOrder}/status', [TravelOrderController::class, 'updateStatus']);
-    Route::patch('/travel-orders/{TravelOrder}/cancel', [TravelOrderController::class, 'cancelTravelOrder']);
+    Route::patch('/travel-orders/{travelOrder}/status', [TravelOrderController::class, 'updateStatus'])->middleware('can:updateStatus,travelOrder');
+    Route::patch('/travel-orders/{travelOrder}/cancel', [TravelOrderController::class, 'cancelTravelOrder'])->middleware('can:updateStatus,travelOrder');
 });
