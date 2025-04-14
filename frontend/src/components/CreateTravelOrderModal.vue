@@ -126,7 +126,6 @@ const statusOptions = [
 ]
 
 async function submitForm() {
-  debugger
   try {
     const payload = {
       user_id: form.usuario_id,
