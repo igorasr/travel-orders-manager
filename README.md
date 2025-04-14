@@ -93,9 +93,9 @@ MySQL: Acessível pela porta 3306 (confira o docker-compose.yml)
 
 | Método | Endpoint             | Autenticado? | Descrição                              | Payload / Headers                                                                 | Resposta Esperada                               |
 |--------|----------------------|--------------|----------------------------------------|------------------------------------------------------------------------------------|-------------------------------------------------|
-| POST   | `/api/auth/register` | ❌           | Registra um novo usuário               | **Body (JSON):**<br>`name`, `email`, `password`          | `{ "token": "JWT_TOKEN" }`                      |
-| POST   | `/api/auth/login`    | ❌           | Faz login e retorna token JWT          | **Body (JSON):**<br>`email`, `password`                                           | `{ "token": "JWT_TOKEN" }`                      |
-| GET    | `/api/auth/me`       | ✅           | Retorna os dados do usuário logado     | **Headers:**<br>`Authorization: Bearer JWT_TOKEN`                                 | `{ "id": 1, "name": "...", "email": "..." }`    |
+| POST   | `/api/auth/register` | ❌           | Registra um novo usuário               | **Body (JSON):**<br>`name: "John Doe", email: "john@example.com", password: "secret"` | `{ "token": "JWT_TOKEN" }`                      |
+| POST   | `/api/auth/login`    | ❌           | Faz login e retorna token JWT          | **Body (JSON):**<br>`email: "john@example.com", password: "secret"`               | `{ "token": "JWT_TOKEN" }`                      |
+| GET    | `/api/auth/me`       | ✅           | Retorna os dados do usuário logado     | **Headers:**<br>`Authorization: Bearer JWT_TOKEN`                                 | `{ "id": 1, "name": "John Doe", "email": "john@example.com" }` |                             | `{ "message": "Desconectado com sucesso" }`     |
 | POST   | `/api/auth/logout`   | ✅           | Invalida o token atual (logout)        | **Headers:**<br>`Authorization: Bearer JWT_TOKEN`                                 | `{ "message": "Desconectado com sucesso" }`     |
 
 ---
@@ -111,4 +111,26 @@ MySQL: Acessível pela porta 3306 (confira o docker-compose.yml)
 | PATCH   | /api/travel-orders/{id}/cancel           | Cancela um pedido aprovado .         |
 | GET     | /api/travel-orders?status=...&cidade=...&estado=...&pais=...&data_ida_inicio=...&data_ida_fim=... | Lista pedidos filtrando por status, destino ou período. (mesmo endpoint do GET geral) |
 
-[Collection para testes da API]('./TravelOrderManager.postman_collection.json')
+## 📦 Como Rodar os Testes
+
+### Executando Testes
+
+Para rodar os testes do projeto, você pode usar o PHPUnit. O ambiente de testes está configurado para usar um banco de dados **SQLite** em memória.
+
+1. Navegue até o diretório do backend:
+    ```bash
+    cd backend
+    ```
+2. Execute os testes com o seguinte comando:
+    ```bash
+    php artisan test --env=testing
+    ```
+3. Para rodar testes de integração específicos, você pode usar o PHPUnit diretamente:
+    ```bash
+    vendor/bin/phpunit --filter NomeDoTeste
+    ```
+
+### Testando a API
+Os testes estão configurados para validar a criação de pedidos de viagem, autenticação de usuários, e filtros de pesquisa. Para mais detalhes sobre as APIs, confira a coleção Postman incluída.
+
+[Collection para testes da API](./TravelOrderManager.postman_collection.json)
