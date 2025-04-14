@@ -25,6 +25,10 @@ class TravelDestinationCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $travelDestination, array $attributes): mixed
     {
-        return [$key => json_encode(TravelDestination::fromArray($travelDestination))];
+        if (is_array($travelDestination)) {
+            $travelDestination = TravelDestination::fromArray($travelDestination);
+        }
+
+        return [$key => json_encode($travelDestination->toArray())];
     }
 }

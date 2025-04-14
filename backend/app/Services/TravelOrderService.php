@@ -17,13 +17,13 @@ class TravelOrderService
 
     public function getAllOrders(FilterTravelOrderDTO $filters)
     {
-        return TravelOrderFilter::apply(TravelOrder::query(), $filters)->with(['user'])->get();
+        return TravelOrderFilter::apply(TravelOrder::query(), $filters)->with(['user'])->latest()->get();
     }
 
     public function createTravelOrder(TravelOrderDTO $data)
     {
         $travelOrder = $this->repository->createTravelOrder($data->toArray());
-
+        $travelOrder->load('user');
         return $travelOrder;
     }
 
